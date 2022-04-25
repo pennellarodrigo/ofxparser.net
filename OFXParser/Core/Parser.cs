@@ -23,10 +23,11 @@ namespace OFXParser
             if (!File.Exists(ofxSourceFile))
                 throw new FileNotFoundException("OFX source file not found: " + ofxSourceFile);
 
-            StreamReader sr = File.OpenText(ofxSourceFile);
+            StreamReader sr = new StreamReader(ofxSourceFile,System.Text.Encoding.Default);
+            using (File.OpenText(ofxSourceFile))
             while ((line = sr.ReadLine()) != null)
             {
-                line = line.Trim();
+                line = line.Trim().Replace("&","");
 
                 if (line.StartsWith("</") && line.EndsWith(">"))
                 {
